@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body data-theme="wesley">
   <div class="ambient ambient-one"></div>
   <div class="ambient ambient-two"></div>
 
@@ -32,7 +32,7 @@
 
   <main class="app-shell">
     <section class="scope-switcher" aria-label="Selecionar visão">
-      <button class="scope-btn active" data-scope="sidmar">Sidmar</button>
+      <button class="scope-btn active" data-scope="sidmar">Wesley</button>
       <button class="scope-btn" data-scope="ana">Ana</button>
       <button class="scope-btn" data-scope="joint">Nós</button>
     </section>
@@ -42,7 +42,7 @@
         <div class="panel-heading">
           <div>
             <p class="overline">VISÃO ATUAL</p>
-            <h2 id="scopeTitle">Finanças de Sidmar</h2>
+            <h2 id="scopeTitle">Finanças de Wesley</h2>
           </div>
           <span class="status-pill">Atualizado agora</span>
         </div>
@@ -162,7 +162,7 @@
       <div class="form-grid">
         <label class="field">Descrição<input id="txDescription" placeholder="Ex.: Gasolina" required /></label>
         <label class="field">Categoria<select id="txCategory"></select></label>
-        <label class="field">Pessoa<select id="txOwner"><option value="sidmar">Sidmar</option><option value="ana">Ana</option><option value="joint">Nós</option></select></label>
+        <label class="field">Pessoa<select id="txOwner"><option value="sidmar">Wesley</option><option value="ana">Ana</option><option value="joint">Nós</option></select></label>
         <label class="field">Conta / meio<input id="txAccount" placeholder="Ex.: Nubank, Pix, Dinheiro" /></label>
         <label class="field">Data<input id="txDate" type="date" required /></label>
         <label class="field">Situação<select id="txStatus"><option value="paid">Pago / recebido</option><option value="pending">Pendente</option></select></label>
@@ -183,7 +183,7 @@
       <div class="form-grid">
         <label class="field">Meta (R$)<input id="goalTarget" inputmode="decimal" placeholder="5000" required /></label>
         <label class="field">Já guardado (R$)<input id="goalCurrent" inputmode="decimal" placeholder="0" /></label>
-        <label class="field">Responsável<select id="goalOwner"><option value="joint">Nós</option><option value="sidmar">Sidmar</option><option value="ana">Ana</option></select></label>
+        <label class="field">Responsável<select id="goalOwner"><option value="joint">Nós</option><option value="sidmar">Wesley</option><option value="ana">Ana</option></select></label>
         <label class="field">Prazo<input id="goalDeadline" type="date" /></label>
       </div>
       <button class="primary-btn full" type="submit">Criar meta</button>
@@ -197,7 +197,7 @@
         <button class="close-btn" type="button" data-close="settingsDialog">×</button>
       </div>
       <p class="helper-copy">Informe apenas valores de gestão. Não use números completos de cartão, senhas, tokens ou dados bancários sensíveis.</p>
-      <label class="field">Saldo atual — Sidmar<input id="balanceSidmar" inputmode="decimal" placeholder="0,00" /></label>
+      <label class="field">Saldo atual — Wesley<input id="balanceSidmar" inputmode="decimal" placeholder="0,00" /></label>
       <label class="field">Saldo atual — Ana<input id="balanceAna" inputmode="decimal" placeholder="0,00" /></label>
       <label class="field">Saldo compartilhado<input id="balanceJoint" inputmode="decimal" placeholder="0,00" /></label>
       <button class="primary-btn full" type="submit">Salvar saldos</button>

@@ -4,7 +4,7 @@ Painel financeiro pessoal e do casal, feito para registrar movimentos de forma s
 
 ## V1
 
-- Visões separadas: Sidmar, Ana e Nós
+- Visões separadas: Wesley, Ana e Nós
 - Receitas, despesas e reservas
 - Saldos informados manualmente
 - Dinheiro livre, comprometido e guardado
@@ -24,7 +24,7 @@ O projeto não deve armazenar senhas bancárias, CVV, tokens, números completos
 ## Próximas etapas
 
 1. Sincronização entre usuários com banco de dados online.
-2. Login separado para Sidmar e Ana.
+2. Login separado para Wesley e Ana.
 3. Permissões para lançamentos privados ou compartilhados.
 4. Parcelamentos e projeção de faturas.
 5. Assinaturas e vencimentos automáticos.
