@@ -5,21 +5,100 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#061329">
-  <title>Finance Wesleyana — acesso privado</title>
-  <style>
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% -10%,#123c7d 0,transparent 38%),linear-gradient(145deg,#020714,#07142b 55%,#030918);color:#f6f8ff;font-family:Inter,system-ui,sans-serif}
-    main{width:min(430px,100%);padding:42px;border:1px solid rgba(133,182,255,.25);border-radius:28px;background:rgba(5,19,43,.9);box-shadow:0 30px 110px rgba(0,4,17,.7);text-align:center}
-    .mark{display:grid;width:54px;height:54px;margin:0 auto 24px;place-items:center;border:1px solid rgba(136,185,255,.34);border-radius:17px;background:linear-gradient(145deg,#153f7e,#06152f);color:#9bc7ff;font-weight:900}
-    p{margin:0;color:#91a6c8;line-height:1.7}h1{margin:0 0 12px;font-size:2rem;letter-spacing:-.05em}.status{display:inline-flex;align-items:center;gap:8px;margin-top:26px;color:#9bc7ff;font-size:.78rem}.status i{width:7px;height:7px;border-radius:50%;background:#68dfa0;box-shadow:0 0 12px rgba(104,223,160,.7)}
-  </style>
+  <meta name="description" content="Painel financeiro particular com dados criptografados.">
+  <title>Finance Wesleyana</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <div class="mark">FW</div>
-    <h1>Finance Wesleyana</h1>
-    <p>Este painel agora é particular. O endereço de acesso não é divulgado nesta página.</p>
-    <div class="status"><i></i> Acesso privado ativado</div>
+  <main id="lockScreen" class="lock-shell">
+    <div class="lock-aurora"></div>
+    <section class="lock-card" aria-labelledby="lockTitle">
+      <div class="brand-mark large">FW</div>
+      <p class="eyebrow lock-label">ÁREA PARTICULAR</p>
+      <h1 id="lockTitle">Finance Wesleyana</h1>
+      <p class="lock-copy">Painel privado de Wesley. Os valores são descriptografados somente neste navegador.</p>
+      <form id="loginForm" class="lock-form">
+        <label for="password">Senha</label>
+        <input id="password" type="password" autocomplete="current-password" required autofocus>
+        <p id="loginError" class="form-error hidden" role="alert"></p>
+        <button type="submit">Entrar no painel</button>
+      </form>
+      <div class="private-badge"><i></i> Dados criptografados</div>
+    </section>
   </main>
+
+  <main id="app" class="app theme-wesley hidden">
+    <div class="ambient one"></div><div class="ambient two"></div>
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark">FW</div><div><p class="eyebrow">CENTRAL FINANCEIRA</p><h1>Finance <span>Wesleyana</span></h1></div></div>
+      <div class="top-actions">
+        <span class="privacy-chip"><i></i> Criptografado</span>
+        <button id="changePasswordBtn" class="ghost">Trocar senha</button>
+        <button id="lockBtn" class="ghost icon-button" aria-label="Sair e bloquear" title="Sair e bloquear">↗</button>
+      </div>
+    </header>
+
+    <div class="dashboard">
+      <section class="toolbar">
+        <div class="scope-tabs" aria-label="Selecionar visão">
+          <button data-scope="wesley">★ Wesley</button><button data-scope="ana">✿ Ana</button><button data-scope="joint">∞ Nós</button>
+        </div>
+        <div class="month-tabs" aria-label="Selecionar mês">
+          <button data-month="2026-08">Agosto</button><button data-month="2026-09">Setembro</button><button data-month="2026-10">Outubro</button>
+        </div>
+      </section>
+
+      <section id="heroGrid" class="hero-grid">
+        <article class="panel summary-card">
+          <div class="panel-heading"><div><p id="viewLabel" class="eyebrow"></p><h2>Compromissos do mês</h2></div><span class="updated">Atualizado em 14/08</span></div>
+          <strong id="totalValue" class="big-number"></strong>
+          <div class="progress"><span id="paidProgress"></span></div>
+          <div class="summary-breakdown"><div><span>Pago</span><strong id="paidValue"></strong></div><div><span>Separado</span><strong id="reservedValue"></strong></div><div><span>A vencer</span><strong id="pendingValue"></strong></div></div>
+        </article>
+        <article id="debtCard" class="panel debt-card">
+          <div class="debt-symbol">↙</div><p class="eyebrow">VALOR RETIRADO</p><h2 id="debtValue"></h2>
+          <p>Valor usado para organizar os pagamentos e que deverá ser devolvido.</p>
+          <div class="debt-detail"><span>Pagamentos imediatos</span><strong id="immediateValue"></strong></div>
+          <div class="debt-detail"><span>Internet separada</span><strong id="internetValue"></strong></div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel bills-card">
+          <div class="section-heading"><div><p class="eyebrow">CONTAS E FATURAS</p><h2 id="monthHeading"></h2></div><button id="addBtn" class="primary">＋ Novo lançamento</button></div>
+          <div id="billList" class="bill-list"></div>
+        </article>
+        <aside class="side-stack">
+          <article class="panel alert-card"><p class="eyebrow">ORGANIZAÇÃO</p><h2 id="attentionTitle"></h2><ul id="attentionList"></ul></article>
+          <article id="recurringCard" class="panel recurring-card"><div class="section-heading compact"><div><p class="eyebrow">LEMBRETES</p><h2>Contas recorrentes</h2></div></div><div id="recurringList"></div></article>
+        </aside>
+      </section>
+    </div>
+    <div id="toast" class="toast hidden" role="status"></div>
+  </main>
+
+  <dialog id="billDialog" class="modal">
+    <form id="billForm" method="dialog" class="modal-form">
+      <div class="modal-heading"><div><p class="eyebrow">NOVO LANÇAMENTO</p><h2>Adicionar compromisso</h2></div><button type="button" data-close="billDialog" aria-label="Fechar">×</button></div>
+      <label>Conta / instituição<input name="account" placeholder="Ex.: Nubank" required></label>
+      <label>Descrição<input name="title" placeholder="Ex.: Fatura" required></label>
+      <div class="form-grid"><label>Valor<input name="amount" inputmode="decimal" placeholder="0,00" required></label><label>Vencimento<input name="due" placeholder="20/09" required></label></div>
+      <label>Situação<select name="status"><option value="pending">Pendente</option><option value="reserved">Separado</option><option value="paid">Pago</option></select></label>
+      <label>Observação<textarea name="note" rows="3"></textarea></label>
+      <button class="primary full" type="submit">Salvar lançamento</button>
+    </form>
+  </dialog>
+
+  <dialog id="passwordDialog" class="modal small">
+    <form id="passwordForm" method="dialog" class="modal-form">
+      <div class="modal-heading"><div><p class="eyebrow">SEGURANÇA</p><h2>Trocar senha</h2></div><button type="button" data-close="passwordDialog" aria-label="Fechar">×</button></div>
+      <label>Nova senha<input name="newPassword" type="password" autocomplete="new-password" minlength="10" required></label>
+      <label>Confirmar senha<input name="confirmation" type="password" autocomplete="new-password" minlength="10" required></label>
+      <p id="passwordError" class="form-error hidden" role="alert"></p>
+      <button class="primary full" type="submit">Atualizar senha</button>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
 </body>
 </html>
