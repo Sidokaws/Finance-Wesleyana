@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#061329">
   <meta name="description" content="Painel financeiro particular com dados criptografados.">
   <title>Finance Wesleyana</title>
-  <link rel="stylesheet" href="style.css?v=20260815-2">
+  <link rel="stylesheet" href="style.css?v=20260816-6">
 </head>
 <body>
   <main id="lockScreen" class="lock-shell">
@@ -99,6 +99,17 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=20260816-5"></script>
+  <dialog id="deleteDialog" class="modal small">
+    <form id="deleteForm" method="dialog" class="modal-form">
+      <div class="modal-heading"><div><p class="eyebrow">CONFIRMAR EXCLUSÃO</p><h2>Apagar lançamento?</h2></div><button type="button" data-close="deleteDialog" aria-label="Fechar">×</button></div>
+      <p id="deleteCopy" class="confirm-copy"></p>
+      <div class="modal-actions">
+        <button type="button" class="secondary" data-close="deleteDialog">Cancelar</button>
+        <button type="submit" class="danger-button">Apagar lançamento</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js?v=20260816-6"></script>
 </body>
 </html>
