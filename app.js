@@ -107,8 +107,14 @@ $('#loginForm').addEventListener('submit',async event=>{
   event.preventDefault();const password=$('#password').value,error=$('#loginError');
   if(attempts>=5){error.textContent='Muitas tentativas. Feche a aba e tente novamente.';error.classList.remove('hidden');return}
   try{
-    const stored=localStorage.getItem(STORAGE_KEY),payload=stored?JSON.parse(stored):DEFAULT_PAYLOAD;
-    state=await decryptVault(payload,password);currentPassword=password;
+    const stored=localStorage.getItem(STORAGE_KEY);
+    if(stored){
+      try{state=await decryptVault(JSON.parse(stored),password)}
+      catch{state=await decryptVault(DEFAULT_PAYLOAD,password)}
+    }else{
+      state=await decryptVault(DEFAULT_PAYLOAD,password);
+    }
+    currentPassword=password;
     $('#password').value='';error.classList.add('hidden');$('#lockScreen').classList.add('hidden');$('#app').classList.remove('hidden');render();
   }catch{
     attempts++;error.textContent='Senha incorreta.';error.classList.remove('hidden');$('#password').value='';
