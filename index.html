@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#061329">
   <meta name="description" content="Painel financeiro particular com dados criptografados.">
   <title>Finance Wesleyana</title>
-  <link rel="stylesheet" href="style.css?v=20260816-6">
+  <link rel="stylesheet" href="style.css?v=20260816-7">
 </head>
 <body>
   <main id="lockScreen" class="lock-shell">
@@ -20,6 +20,10 @@
       <form id="loginForm" class="lock-form">
         <label for="password">Senha</label>
         <input id="password" type="password" autocomplete="current-password" required autofocus>
+        <label class="remember-row" for="rememberDevice">
+          <input id="rememberDevice" type="checkbox">
+          <span><strong>Lembrar neste aparelho</strong><small>Use apenas em celular ou computador particular.</small></span>
+        </label>
         <p id="loginError" class="form-error hidden" role="alert"></p>
         <button type="submit">Entrar no painel</button>
       </form>
@@ -110,6 +114,6 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=20260816-6"></script>
+  <script src="app.js?v=20260816-7"></script>
 </body>
 </html>
