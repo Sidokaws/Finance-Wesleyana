@@ -1,7 +1,8 @@
 const STORAGE_KEY='finance-wesleyana-vault-v2';
+const REMEMBER_DB='finance-wesleyana-access-v1',REMEMBER_STORE='keys',REMEMBER_ID='device-unlock';
 const DEFAULT_PAYLOAD={"v":2,"i":310000,"z":"gzip","salt":"z6w4C66Anil+juuBgb0tlQ==","iv":"lDFNMjSGXtjqa4pg","data":"SBi+CTO+vvsi5WA5xDeeeLf6Jk1eZm+lfdt86n4Pw2GRJO5iZsB6l7Ix8yrgs1fZdINaSUe7cyORfjdM9cVdbeNkvlBVY/VTHs8lMyghfXdvo/0zDWAq8En66s6LJHr9OPEkqwTwWu40b6IpKlA7aUw5P1NLnKbh/GMe+HpR34+xtNzwS6nA93pq+8Swe365hp6vSQBich9+KJf+uOuZUeZN1KPUHaCRME4IWln6MKZS8PRwz8YOm7jMEOntUXpQUual5U5KVw+p6Q03owsMm1b5ATfqzvnwp3bmP6EohVbizc5wDO9O6ZMVzUbtbGI8GfhlgeRPgmMam3HWwDON1ZHP/crnqnJcAUP3QZFjshiRd9GBEig77yUaH5UdcBJ9PGHrn+9/hjtJc5jr4JzmMaN/7IxEV6XYnD1j5BUUBbWaxTjCaxaw0AzexsASwdofVkF/cWO6xghq/TlELfpwauZU999KXynMtucLH0zm1HmPSZpWQ/5Ld2naliQWXoGhG+70tvrVuDU5ADmuPo3jfVyBrJgX3x82E93ejHmTwxeixSc0/rtBQ2QlS2DiOg3f6wLrhX9fUxsx8rUVEffZ/gZanIkDvx7WBHnjREWc5RGDnBxZFEECQ+6SycKpcxbAOl/5G5RGdSao0CgCG1sk8RKKGOkZ/i8RQERnP3K8UNCq4a+vWiimR8cPs9cIyOzEV4lliba3WrNNI8EOqHcmzHO1/Or+YoPr11DIqH4hU5162XIiYALoeeEjoO+/e96zs4iGPU4lWSaonjl1nlS3Eyqzv1ljxBbxFzbeQsqVfSYHWRdygsAUo33Ua6yJlLcbzIDLP5nfhYlRCfefMc9xnpMZ5aYI/7L/0a7CAmtwDRGaQ85YiS8EtwdJEYTYl7x+tL+nSOxUyXyRSstcjHbFX1gAFP+7fkFidma49AJmrBaxjHT3fwIPA7VAY6c6GPrdPOzTG8X8n2t+736ctceRGvzNs38Ex6hjytS4ouVd98Wobd/ETNApC+2mCGH76/VWaOxaOUPhY/2kEI2EOwh7QfvUi6Hw98ncbcgKaUtiPEbTish9iYht9B5phr32FTxAKrrJSFRIjVirTrDSGy8DMhnx/YkG3O9Y0rwAgP6mt4nGNJIQ3hO+jUU+WAHoxYMo2V4t46sGDybxPhub7B7ELbyyMMnx6UWCEc72eCQdOq0fmsgLe83hFRK7LNUQ9UQqVDyK7Y24W0Z/qX0OhbxHSPEavsXq19lX3QRlcapn+uyAVSgfDcluis2IpzHUGpRLTcC+UdCRA/QzC8hISwxNOknjx7xy6uIfVYSBi0Onjv5glRYO5X1jxI0pXOHD7qoeTHNYX6ItNFkMIVfI82JdUeIvT7Y1W7pYWMv8pKOzIJ//+l7tQBUBU6MM3W9K3J/D1PWJBfe85ZXu/hM4hFBw9sUeCl/KCESeRva9QVoWeByabLR2v/4xW2vb9/gLR/+KLw8nZ1SPcCjV4jEFvJFGE+W1q/GQW6H6kZtuGzS2LUR/8H80O3ux5VZ1+KO4mXLshgD/RnpkW1iBIMxnbPMY6+UIgHvcQhdWbC3Cz4HSPzizWH09l0jzdBJ3/Mtel7iGUn/rE0Q/1to7HqYgbaJhP7/pv3MGoa/EwTcFfOEam9MecSeJ2UcPNNkMQDI+6aiWWogVRJNKgZBliz4P3jngnz6RVmxzaGB0T+F+ns6PZA2W/ivU90UsLbSNAkioC0p0A/K8E6Bj"};
 const MONTHS={'2026-08':'Agosto','2026-09':'Setembro','2026-10':'Outubro'};
-let state=null,currentPassword='',attempts=0,pendingDeleteId=null,savingBill=false;
+let state=null,currentPassword='',rememberDeviceEnabled=false,rememberedReady=false,attempts=0,pendingDeleteId=null,savingBill=false;
 const $=selector=>document.querySelector(selector);
 const $$=selector=>[...document.querySelectorAll(selector)];
 const brl=value=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(value)||0);
@@ -9,6 +10,47 @@ const parseMoney=value=>Number(String(value||'0').replace(/\./g,'').replace(',',
 const escapeHtml=value=>String(value||'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const bytesToB64=bytes=>{let binary='';for(const byte of bytes)binary+=String.fromCharCode(byte);return btoa(binary)};
 const b64ToBytes=value=>Uint8Array.from(atob(value),char=>char.charCodeAt(0));
+
+function openRememberDb(){
+  return new Promise((resolve,reject)=>{
+    const request=indexedDB.open(REMEMBER_DB,1);
+    request.onupgradeneeded=()=>request.result.createObjectStore(REMEMBER_STORE,{keyPath:'id'});
+    request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);
+  });
+}
+async function rememberAccess(password){
+  const key=await crypto.subtle.generateKey({name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const encrypted=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(password)));
+  const db=await openRememberDb();
+  await new Promise((resolve,reject)=>{
+    const transaction=db.transaction(REMEMBER_STORE,'readwrite');
+    transaction.objectStore(REMEMBER_STORE).put({id:REMEMBER_ID,key,iv:bytesToB64(iv),data:bytesToB64(encrypted)});
+    transaction.oncomplete=resolve;transaction.onerror=()=>reject(transaction.error);
+  });
+  db.close();
+}
+async function readRememberedAccess(){
+  try{
+    const db=await openRememberDb();
+    const value=await new Promise((resolve,reject)=>{
+      const request=db.transaction(REMEMBER_STORE).objectStore(REMEMBER_STORE).get(REMEMBER_ID);
+      request.onsuccess=()=>resolve(request.result||null);request.onerror=()=>reject(request.error);
+    });
+    db.close();return value;
+  }catch{return null}
+}
+async function forgetRememberedAccess(){
+  try{
+    const db=await openRememberDb();
+    await new Promise((resolve,reject)=>{
+      const transaction=db.transaction(REMEMBER_STORE,'readwrite');
+      transaction.objectStore(REMEMBER_STORE).delete(REMEMBER_ID);
+      transaction.oncomplete=resolve;transaction.onerror=()=>reject(transaction.error);
+    });
+    db.close();
+  }catch{}
+}
 
 async function deriveKey(password,salt,iterations,usage){
   const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveKey']);
@@ -25,6 +67,10 @@ async function compress(bytes){
 async function decryptVault(payload,password){
   const salt=b64ToBytes(payload.salt),iv=b64ToBytes(payload.iv),data=b64ToBytes(payload.data);
   const key=await deriveKey(password,salt,payload.i,['decrypt']);
+  return decryptVaultWithKey(payload,key);
+}
+async function decryptVaultWithKey(payload,key){
+  const iv=b64ToBytes(payload.iv),data=b64ToBytes(payload.data);
   const decrypted=new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv},key,data));
   const plain=payload.z==='gzip'?await decompress(decrypted):decrypted;
   return JSON.parse(new TextDecoder().decode(plain));
@@ -37,8 +83,10 @@ async function encryptVault(value,password){
   return {v:2,i:iterations,z:'gzip',salt:bytesToB64(salt),iv:bytesToB64(iv),data:bytesToB64(encrypted)};
 }
 async function saveState(){
+  if(!currentPassword)throw new Error('Painel bloqueado.');
   const encrypted=await encryptVault(state,currentPassword);
   localStorage.setItem(STORAGE_KEY,JSON.stringify(encrypted));
+  if(rememberDeviceEnabled)await rememberAccess(currentPassword);
 }
 
 function amountForScope(bill,scope){
@@ -110,27 +158,60 @@ function renderRecurring(bills){
   $('#recurringList').innerHTML=recurring.length?recurring.map(bill=>`<div class="recurring-row"><span>${escapeHtml(bill.account)} · ${escapeHtml(bill.due)}</span><strong>${brl(amountForScope(bill,'wesley'))}</strong></div>`).join(''):'<div class="empty">Sem recorrências neste mês.</div>';
 }
 function toast(message){const element=$('#toast');element.textContent=message;element.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>element.classList.add('hidden'),2800)}
+function openApp(){
+  $('#password').value='';$('#loginError').classList.add('hidden');$('#lockScreen').classList.add('hidden');$('#app').classList.remove('hidden');render();
+}
+async function tryRememberedLogin(){
+  const remembered=await readRememberedAccess();
+  if(!remembered?.key||!remembered?.iv||!remembered?.data)return;
+  let password='';
+  try{
+    const decrypted=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64ToBytes(remembered.iv)},remembered.key,b64ToBytes(remembered.data));
+    password=new TextDecoder().decode(decrypted);
+  }catch{return}
+  const candidates=[];
+  try{const stored=localStorage.getItem(STORAGE_KEY);if(stored)candidates.push(JSON.parse(stored))}catch{}
+  candidates.push(DEFAULT_PAYLOAD);
+  for(const payload of candidates){
+    try{
+      state=await decryptVault(payload,password);
+      currentPassword=password;rememberDeviceEnabled=true;rememberedReady=true;
+      $('#rememberDevice').checked=true;$('#password').required=false;$('#loginForm').classList.add('remembered');
+      $('#loginForm button[type="submit"]').textContent='Entrar';
+      $('.lock-copy').textContent='Aparelho reconhecido. Toque em Entrar para abrir o painel de Wesley e Ana.';
+      return;
+    }catch{}
+  }
+}
 
 $('#loginForm').addEventListener('submit',async event=>{
-  event.preventDefault();const password=$('#password').value,error=$('#loginError');
+  event.preventDefault();
+  if(rememberedReady){openApp();return}
+  const password=$('#password').value,error=$('#loginError');
   if(attempts>=5){error.textContent='Muitas tentativas. Feche a aba e tente novamente.';error.classList.remove('hidden');return}
   try{
-    const stored=localStorage.getItem(STORAGE_KEY);
+    const stored=localStorage.getItem(STORAGE_KEY);let payload=DEFAULT_PAYLOAD;
     if(stored){
-      try{state=await decryptVault(JSON.parse(stored),password)}
-      catch{state=await decryptVault(DEFAULT_PAYLOAD,password)}
+      try{payload=JSON.parse(stored);state=await decryptVault(payload,password)}
+      catch{payload=DEFAULT_PAYLOAD;state=await decryptVault(payload,password)}
     }else{
-      state=await decryptVault(DEFAULT_PAYLOAD,password);
+      state=await decryptVault(payload,password);
     }
-    currentPassword=password;
-    $('#password').value='';error.classList.add('hidden');$('#lockScreen').classList.add('hidden');$('#app').classList.remove('hidden');render();
+    currentPassword=password;rememberDeviceEnabled=$('#rememberDevice').checked;
+    if(rememberDeviceEnabled){
+      try{await rememberAccess(password)}
+      catch{rememberDeviceEnabled=false;$('#rememberDevice').checked=false}
+    }else{
+      await forgetRememberedAccess();
+    }
+    openApp();
   }catch{
     attempts++;error.textContent='Senha incorreta.';error.classList.remove('hidden');$('#password').value='';
   }
 });
 $$('.scope-tabs button').forEach(button=>button.onclick=()=>{state.scope=button.dataset.scope;render()});
 $$('.month-tabs button').forEach(button=>button.onclick=()=>{state.month=button.dataset.month;render()});
-$('#lockBtn').onclick=()=>{state=null;currentPassword='';$('#app').classList.add('hidden');$('#lockScreen').classList.remove('hidden');$('#password').focus()};
+$('#lockBtn').onclick=async()=>{await forgetRememberedAccess();state=null;currentPassword='';rememberDeviceEnabled=false;rememberedReady=false;$('#rememberDevice').checked=false;$('#password').required=true;$('#loginForm').classList.remove('remembered');$('#loginForm button[type="submit"]').textContent='Entrar no painel';$('.lock-copy').textContent='Painel particular de Wesley e Ana. Os valores são descriptografados somente neste navegador.';$('#app').classList.add('hidden');$('#lockScreen').classList.remove('hidden');$('#password').focus()};
 $('#addBtn').onclick=()=>$('#billDialog').showModal();
 $('#changePasswordBtn').onclick=()=>$('#passwordDialog').showModal();
 $$('[data-close]').forEach(button=>button.onclick=()=>$('#'+button.dataset.close).close());
@@ -159,3 +240,4 @@ $('#deleteForm').addEventListener('submit',async event=>{
   state.bills.splice(index,1);pendingDeleteId=null;
   await saveState();$('#deleteDialog').close();render();toast('Lançamento apagado.');
 });
+tryRememberedLogin();
