@@ -1,7 +1,7 @@
 const STORAGE_KEY='finance-wesleyana-vault-v2';
 const DEFAULT_PAYLOAD={"v":2,"i":310000,"z":"gzip","salt":"z6w4C66Anil+juuBgb0tlQ==","iv":"lDFNMjSGXtjqa4pg","data":"SBi+CTO+vvsi5WA5xDeeeLf6Jk1eZm+lfdt86n4Pw2GRJO5iZsB6l7Ix8yrgs1fZdINaSUe7cyORfjdM9cVdbeNkvlBVY/VTHs8lMyghfXdvo/0zDWAq8En66s6LJHr9OPEkqwTwWu40b6IpKlA7aUw5P1NLnKbh/GMe+HpR34+xtNzwS6nA93pq+8Swe365hp6vSQBich9+KJf+uOuZUeZN1KPUHaCRME4IWln6MKZS8PRwz8YOm7jMEOntUXpQUual5U5KVw+p6Q03owsMm1b5ATfqzvnwp3bmP6EohVbizc5wDO9O6ZMVzUbtbGI8GfhlgeRPgmMam3HWwDON1ZHP/crnqnJcAUP3QZFjshiRd9GBEig77yUaH5UdcBJ9PGHrn+9/hjtJc5jr4JzmMaN/7IxEV6XYnD1j5BUUBbWaxTjCaxaw0AzexsASwdofVkF/cWO6xghq/TlELfpwauZU999KXynMtucLH0zm1HmPSZpWQ/5Ld2naliQWXoGhG+70tvrVuDU5ADmuPo3jfVyBrJgX3x82E93ejHmTwxeixSc0/rtBQ2QlS2DiOg3f6wLrhX9fUxsx8rUVEffZ/gZanIkDvx7WBHnjREWc5RGDnBxZFEECQ+6SycKpcxbAOl/5G5RGdSao0CgCG1sk8RKKGOkZ/i8RQERnP3K8UNCq4a+vWiimR8cPs9cIyOzEV4lliba3WrNNI8EOqHcmzHO1/Or+YoPr11DIqH4hU5162XIiYALoeeEjoO+/e96zs4iGPU4lWSaonjl1nlS3Eyqzv1ljxBbxFzbeQsqVfSYHWRdygsAUo33Ua6yJlLcbzIDLP5nfhYlRCfefMc9xnpMZ5aYI/7L/0a7CAmtwDRGaQ85YiS8EtwdJEYTYl7x+tL+nSOxUyXyRSstcjHbFX1gAFP+7fkFidma49AJmrBaxjHT3fwIPA7VAY6c6GPrdPOzTG8X8n2t+736ctceRGvzNs38Ex6hjytS4ouVd98Wobd/ETNApC+2mCGH76/VWaOxaOUPhY/2kEI2EOwh7QfvUi6Hw98ncbcgKaUtiPEbTish9iYht9B5phr32FTxAKrrJSFRIjVirTrDSGy8DMhnx/YkG3O9Y0rwAgP6mt4nGNJIQ3hO+jUU+WAHoxYMo2V4t46sGDybxPhub7B7ELbyyMMnx6UWCEc72eCQdOq0fmsgLe83hFRK7LNUQ9UQqVDyK7Y24W0Z/qX0OhbxHSPEavsXq19lX3QRlcapn+uyAVSgfDcluis2IpzHUGpRLTcC+UdCRA/QzC8hISwxNOknjx7xy6uIfVYSBi0Onjv5glRYO5X1jxI0pXOHD7qoeTHNYX6ItNFkMIVfI82JdUeIvT7Y1W7pYWMv8pKOzIJ//+l7tQBUBU6MM3W9K3J/D1PWJBfe85ZXu/hM4hFBw9sUeCl/KCESeRva9QVoWeByabLR2v/4xW2vb9/gLR/+KLw8nZ1SPcCjV4jEFvJFGE+W1q/GQW6H6kZtuGzS2LUR/8H80O3ux5VZ1+KO4mXLshgD/RnpkW1iBIMxnbPMY6+UIgHvcQhdWbC3Cz4HSPzizWH09l0jzdBJ3/Mtel7iGUn/rE0Q/1to7HqYgbaJhP7/pv3MGoa/EwTcFfOEam9MecSeJ2UcPNNkMQDI+6aiWWogVRJNKgZBliz4P3jngnz6RVmxzaGB0T+F+ns6PZA2W/ivU90UsLbSNAkioC0p0A/K8E6Bj"};
 const MONTHS={'2026-08':'Agosto','2026-09':'Setembro','2026-10':'Outubro'};
-let state=null,currentPassword='',attempts=0;
+let state=null,currentPassword='',attempts=0,pendingDeleteId=null,savingBill=false;
 const $=selector=>document.querySelector(selector);
 const $$=selector=>[...document.querySelectorAll(selector)];
 const brl=value=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(value)||0);
@@ -83,11 +83,18 @@ function renderBills(bills){
     const scoped=amountForScope(bill,state.scope);
     const showOriginal=state.scope==='wesley'&&Math.abs(scoped-bill.amount)>.001;
     const note=state.scope==='ana'?(((bill.owner||'wesley')==='ana'?bill.note:bill.anaNote)||''):bill.note;
-    return `<article class="bill-row"><div class="account-icon">${escapeHtml(accountMark(bill.account))}</div><div class="bill-copy"><div><strong>${escapeHtml(bill.account)}</strong><span>${escapeHtml(bill.title)}</span></div><p>Vence ${escapeHtml(bill.due)}${note?' · '+escapeHtml(note):''}</p></div><div class="bill-money"><strong>${brl(scoped)}</strong>${showOriginal?`<small>de ${brl(bill.amount)}</small>`:''}</div><button class="status ${bill.status}" data-status-id="${escapeHtml(bill.id)}" title="Clique para alterar">${bill.status==='paid'?'Pago':bill.status==='reserved'?'Separado':'Pendente'}</button></article>`
+    return `<article class="bill-row"><div class="account-icon">${escapeHtml(accountMark(bill.account))}</div><div class="bill-copy"><div><strong>${escapeHtml(bill.account)}</strong><span>${escapeHtml(bill.title)}</span></div><p>Vence ${escapeHtml(bill.due)}${note?' · '+escapeHtml(note):''}</p></div><div class="bill-money"><strong>${brl(scoped)}</strong>${showOriginal?`<small>de ${brl(bill.amount)}</small>`:''}</div><button class="status ${bill.status}" data-status-id="${escapeHtml(bill.id)}" title="Clique para alterar">${bill.status==='paid'?'Pago':bill.status==='reserved'?'Separado':'Pendente'}</button><button class="row-delete" type="button" data-delete-id="${escapeHtml(bill.id)}" aria-label="Excluir ${escapeHtml(bill.title)}" title="Excluir lançamento">×</button></article>`
   }).join('');
   $$('[data-status-id]').forEach(button=>button.onclick=async()=>{
     const bill=state.bills.find(item=>item.id===button.dataset.statusId),next={pending:'reserved',reserved:'paid',paid:'pending'};
     bill.status=next[bill.status];await saveState();render();toast('Situação atualizada e criptografada.');
+  });
+  $$('[data-delete-id]').forEach(button=>button.onclick=()=>{
+    const bill=state.bills.find(item=>item.id===button.dataset.deleteId);
+    if(!bill)return;
+    pendingDeleteId=bill.id;
+    $('#deleteCopy').textContent='Você vai apagar “'+bill.account+' — '+bill.title+'”, no valor de '+brl(amountForScope(bill,state.scope))+'. Esta ação será salva neste navegador.';
+    $('#deleteDialog').showModal();
   });
 }
 function renderAttention(bills,totals){
@@ -129,13 +136,26 @@ $('#changePasswordBtn').onclick=()=>$('#passwordDialog').showModal();
 $$('[data-close]').forEach(button=>button.onclick=()=>$('#'+button.dataset.close).close());
 
 $('#billForm').addEventListener('submit',async event=>{
-  event.preventDefault();const data=new FormData(event.currentTarget);
-  state.bills.push({id:crypto.randomUUID(),month:state.month,owner:state.scope,account:String(data.get('account')).trim(),title:String(data.get('title')).trim(),amount:parseMoney(data.get('amount')),due:String(data.get('due')).trim(),status:String(data.get('status')),note:String(data.get('note')||'').trim()});
-  await saveState();event.currentTarget.reset();$('#billDialog').close();render();toast('Lançamento salvo de forma criptografada.');
+  event.preventDefault();if(savingBill)return;
+  savingBill=true;const form=event.currentTarget,submit=form.querySelector('[type="submit"]'),data=new FormData(form);
+  submit.disabled=true;submit.textContent='Salvando...';
+  try{
+    state.bills.push({id:crypto.randomUUID(),month:state.month,owner:state.scope,account:String(data.get('account')).trim(),title:String(data.get('title')).trim(),amount:parseMoney(data.get('amount')),due:String(data.get('due')).trim(),status:String(data.get('status')),note:String(data.get('note')||'').trim()});
+    await saveState();form.reset();$('#billDialog').close();render();toast('Lançamento salvo de forma criptografada.');
+  }finally{
+    savingBill=false;submit.disabled=false;submit.textContent='Salvar lançamento';
+  }
 });
 $('#passwordForm').addEventListener('submit',async event=>{
   event.preventDefault();const data=new FormData(event.currentTarget),next=String(data.get('newPassword')),confirmation=String(data.get('confirmation')),error=$('#passwordError');
   if(next.length<10){error.textContent='Use pelo menos 10 caracteres.';error.classList.remove('hidden');return}
   if(next!==confirmation){error.textContent='As senhas não são iguais.';error.classList.remove('hidden');return}
   currentPassword=next;await saveState();event.currentTarget.reset();error.classList.add('hidden');$('#passwordDialog').close();toast('Senha alterada e dados recriptografados.');
+});
+$('#deleteForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const index=state.bills.findIndex(item=>item.id===pendingDeleteId);
+  if(index<0){$('#deleteDialog').close();return}
+  state.bills.splice(index,1);pendingDeleteId=null;
+  await saveState();$('#deleteDialog').close();render();toast('Lançamento apagado.');
 });
