@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#061329">
   <meta name="description" content="Painel financeiro particular com dados criptografados.">
   <title>Finance Wesleyana</title>
-  <link rel="stylesheet" href="style.css?v=20260821-2">
+  <link rel="stylesheet" href="style.css?v=20260821-3">
 </head>
 <body>
   <main id="lockScreen" class="lock-shell">
@@ -54,7 +54,7 @@
 
       <section id="heroGrid" class="hero-grid">
         <article class="panel summary-card">
-          <div class="panel-heading"><div><p id="viewLabel" class="eyebrow"></p><h2>Compromissos do mês</h2></div><span class="updated">Atualizado em 14/08</span></div>
+          <div class="panel-heading"><div><p id="viewLabel" class="eyebrow"></p><h2>Compromissos do mês</h2></div><span class="updated">Atualizado em 21/08</span></div>
           <strong id="totalValue" class="big-number"></strong>
           <div class="progress"><span id="paidProgress"></span></div>
           <div class="summary-breakdown"><div><span>Pago</span><strong id="paidValue"></strong></div><div><span>Separado</span><strong id="reservedValue"></strong></div><div><span>A vencer</span><strong id="pendingValue"></strong></div></div>
@@ -62,6 +62,8 @@
         <article id="debtCard" class="panel debt-card">
           <div class="debt-symbol">↙</div><p class="eyebrow">VALOR RETIRADO</p><h2 id="debtValue"></h2>
           <p>Valor usado para organizar os pagamentos e que deverá ser devolvido.</p>
+          <div id="salaryDetail" class="debt-detail hidden"><span>Salário líquido recebido</span><strong id="salaryValue"></strong></div>
+          <div id="remainingDetail" class="debt-detail hidden"><span>Depois de devolver</span><strong id="remainingValue"></strong></div>
           <div class="debt-detail"><span>Pagamentos imediatos</span><strong id="immediateValue"></strong></div>
           <div class="debt-detail"><span>Internet separada</span><strong id="internetValue"></strong></div>
         </article>
@@ -144,6 +146,6 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=20260821-2"></script>
+  <script src="app.js?v=20260821-3"></script>
 </body>
 </html>

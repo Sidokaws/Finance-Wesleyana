@@ -1,7 +1,7 @@
 const STORAGE_KEY='finance-wesleyana-vault-v2';
 const RECOVERY_KEY='finance-wesleyana-vault-recovery-v1';
 const REMEMBER_DB='finance-wesleyana-access-v1',REMEMBER_STORE='keys',REMEMBER_ID='device-unlock';
-const DEFAULT_PAYLOAD={"v":2,"i":310000,"z":"gzip","salt":"z6w4C66Anil+juuBgb0tlQ==","iv":"lDFNMjSGXtjqa4pg","data":"SBi+CTO+vvsi5WA5xDeeeLf6Jk1eZm+lfdt86n4Pw2GRJO5iZsB6l7Ix8yrgs1fZdINaSUe7cyORfjdM9cVdbeNkvlBVY/VTHs8lMyghfXdvo/0zDWAq8En66s6LJHr9OPEkqwTwWu40b6IpKlA7aUw5P1NLnKbh/GMe+HpR34+xtNzwS6nA93pq+8Swe365hp6vSQBich9+KJf+uOuZUeZN1KPUHaCRME4IWln6MKZS8PRwz8YOm7jMEOntUXpQUual5U5KVw+p6Q03owsMm1b5ATfqzvnwp3bmP6EohVbizc5wDO9O6ZMVzUbtbGI8GfhlgeRPgmMam3HWwDON1ZHP/crnqnJcAUP3QZFjshiRd9GBEig77yUaH5UdcBJ9PGHrn+9/hjtJc5jr4JzmMaN/7IxEV6XYnD1j5BUUBbWaxTjCaxaw0AzexsASwdofVkF/cWO6xghq/TlELfpwauZU999KXynMtucLH0zm1HmPSZpWQ/5Ld2naliQWXoGhG+70tvrVuDU5ADmuPo3jfVyBrJgX3x82E93ejHmTwxeixSc0/rtBQ2QlS2DiOg3f6wLrhX9fUxsx8rUVEffZ/gZanIkDvx7WBHnjREWc5RGDnBxZFEECQ+6SycKpcxbAOl/5G5RGdSao0CgCG1sk8RKKGOkZ/i8RQERnP3K8UNCq4a+vWiimR8cPs9cIyOzEV4lliba3WrNNI8EOqHcmzHO1/Or+YoPr11DIqH4hU5162XIiYALoeeEjoO+/e96zs4iGPU4lWSaonjl1nlS3Eyqzv1ljxBbxFzbeQsqVfSYHWRdygsAUo33Ua6yJlLcbzIDLP5nfhYlRCfefMc9xnpMZ5aYI/7L/0a7CAmtwDRGaQ85YiS8EtwdJEYTYl7x+tL+nSOxUyXyRSstcjHbFX1gAFP+7fkFidma49AJmrBaxjHT3fwIPA7VAY6c6GPrdPOzTG8X8n2t+736ctceRGvzNs38Ex6hjytS4ouVd98Wobd/ETNApC+2mCGH76/VWaOxaOUPhY/2kEI2EOwh7QfvUi6Hw98ncbcgKaUtiPEbTish9iYht9B5phr32FTxAKrrJSFRIjVirTrDSGy8DMhnx/YkG3O9Y0rwAgP6mt4nGNJIQ3hO+jUU+WAHoxYMo2V4t46sGDybxPhub7B7ELbyyMMnx6UWCEc72eCQdOq0fmsgLe83hFRK7LNUQ9UQqVDyK7Y24W0Z/qX0OhbxHSPEavsXq19lX3QRlcapn+uyAVSgfDcluis2IpzHUGpRLTcC+UdCRA/QzC8hISwxNOknjx7xy6uIfVYSBi0Onjv5glRYO5X1jxI0pXOHD7qoeTHNYX6ItNFkMIVfI82JdUeIvT7Y1W7pYWMv8pKOzIJ//+l7tQBUBU6MM3W9K3J/D1PWJBfe85ZXu/hM4hFBw9sUeCl/KCESeRva9QVoWeByabLR2v/4xW2vb9/gLR/+KLw8nZ1SPcCjV4jEFvJFGE+W1q/GQW6H6kZtuGzS2LUR/8H80O3ux5VZ1+KO4mXLshgD/RnpkW1iBIMxnbPMY6+UIgHvcQhdWbC3Cz4HSPzizWH09l0jzdBJ3/Mtel7iGUn/rE0Q/1to7HqYgbaJhP7/pv3MGoa/EwTcFfOEam9MecSeJ2UcPNNkMQDI+6aiWWogVRJNKgZBliz4P3jngnz6RVmxzaGB0T+F+ns6PZA2W/ivU90UsLbSNAkioC0p0A/K8E6Bj"};
+const DEFAULT_PAYLOAD={"v":2,"i":310000,"z":"gzip","salt":"sFAhFyzqzJBEzULU4amA+A==","iv":"byY2h6cCCUxg0e9Q","data":"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"};
 const MONTHS={'2026-08':'Agosto','2026-09':'Setembro','2026-10':'Outubro'};
 const CATEGORY_COLORS={
   wesley:['#23a9d8','#3f7fff','#8758c9','#f1a33b','#43c58a','#ed6f9f','#7eb4ff'],
@@ -156,14 +156,14 @@ async function exportBackup(){
 }
 
 function amountForScope(bill,scope){
-  const owner=bill.owner||'wesley';
-  if(scope==='joint')return owner==='joint'?Math.max(0,bill.amount-(bill.expectedRefund||0)):0;
+  const owner=bill.owner||'wesley',confirmedRefund=bill.refundStatus==='received'?(bill.expectedRefund||0):0;
+  if(scope==='joint')return owner==='joint'?Math.max(0,bill.amount-confirmedRefund):0;
   if(scope==='ana'){
-    if(owner==='ana')return Math.max(0,bill.amount-(bill.expectedRefund||0));
+    if(owner==='ana')return Math.max(0,bill.amount-confirmedRefund);
     return bill.anaAmount??bill.anaContribution??0;
   }
   if(owner!=='wesley')return 0;
-  return Math.max(0,bill.amount-(bill.anaContribution||0)-(bill.expectedRefund||0));
+  return Math.max(0,bill.amount-(bill.anaContribution||0)-confirmedRefund);
 }
 
 function visibleBills(){
@@ -179,7 +179,8 @@ function accountMark(account){return account==='Nubank'?'Nu':account==='Mercado 
 
 function categoryFor(bill){
   if(bill.category)return bill.category;
-  const text=`${bill.account||''} ${bill.title||''} ${bill.note||''}`.toLowerCase();
+  const account=String(bill.account||'').toLowerCase(),title=String(bill.title||'').toLowerCase(),text=`${account} ${title} ${bill.note||''}`.toLowerCase();
+  if(/nubank|mercado pago|banco do brasil/.test(account)&&/fatura/.test(title))return 'Cartões e faturas';
   if(/internet|claro|energia|água|agua|aluguel|casa/.test(text))return 'Casa e serviços';
   if(/marmitex|supermercado|mercearia|\bmercado\b(?!\s+pago)|comida|alimentação|alimentacao|restaurante|lanche/.test(text))return 'Alimentação';
   if(/pneu|gasolina|combustível|combustivel|uber|transporte|deslocamento/.test(text))return 'Transporte';
@@ -194,11 +195,19 @@ function categoryFor(bill){
 
 function groupedSpending(bills){
   const grouped=new Map();
+  const add=(category,amount)=>grouped.set(category,(grouped.get(category)||0)+amount);
   for(const bill of bills){
     const amount=amountForScope(bill,state.scope);
     if(amount<=0)continue;
-    const category=categoryFor(bill);
-    grouped.set(category,(grouped.get(category)||0)+amount);
+    let assigned=0;
+    for(const item of bill.breakdown||[]){
+      if((item.owner||bill.owner||'wesley')!==state.scope)continue;
+      const available=Math.max(0,amount-assigned),share=Math.min(available,Number(item.amount)||0);
+      if(share<=0)continue;
+      add(categoryFor(item),share);assigned+=share;
+    }
+    const remaining=Math.max(0,amount-assigned);
+    if(remaining>.001)add(categoryFor(bill),remaining);
   }
   const ordered=[...grouped.entries()].sort((a,b)=>b[1]-a[1]);
   if(ordered.length<=6)return ordered;
@@ -212,14 +221,19 @@ function renderSpendingChart(bills){
   $('#chartMonthLabel').textContent=(MONTHS[state.month]||state.month).slice(0,3).toUpperCase();
   box.setAttribute?.('aria-label',`Distribuição dos gastos de ${scopeLabel} em ${MONTHS[state.month]||state.month}`);
   if(!groups.length||!total){box.innerHTML='<div class="chart-empty">Adicione lançamentos para visualizar a distribuição dos gastos por categoria.</div>';return}
-  const radius=37,circumference=2*Math.PI*radius,gap=Math.min(1.8,circumference/(groups.length*18));let start=0;
+  const center=120,inner=24,gap=groups.length===1?.35:2.4,outerRadii=[94,106,80,91,72,84];let cursor=-128;
+  const polar=(radius,angle)=>{const radians=(angle-90)*Math.PI/180;return {x:center+radius*Math.cos(radians),y:center+radius*Math.sin(radians)}};
+  const number=value=>Number(value.toFixed(3));
   const segments=groups.map(([category,value],index)=>{
-    const portion=value/total,visibleLength=Math.max(.1,portion*circumference-gap),offset=-(start*circumference);start+=portion;
-    const percent=portion*100,color=colors[index%colors.length];
-    return `<circle class="donut-segment" cx="50" cy="50" r="${radius}" pathLength="${circumference}" stroke="${color}" stroke-dasharray="${visibleLength} ${circumference-visibleLength}" stroke-dashoffset="${offset}" transform="rotate(-90 50 50)"><title>${escapeHtml(category)}: ${brl(value)} (${percent.toFixed(1).replace('.',',')}%)</title></circle>`;
+    const percent=value/total*100,span=Math.min(359.6,value/total*360),start=cursor+gap/2,end=cursor+Math.max(gap/2,span-gap/2),middle=(start+end)/2,outer=outerRadii[index%outerRadii.length],displacement=index===1?9:index===0?2:4;
+    cursor+=span;
+    const radians=(middle-90)*Math.PI/180,dx=number(Math.cos(radians)*displacement),dy=number(Math.sin(radians)*displacement),outerStart=polar(outer,start),outerEnd=polar(outer,end),innerEnd=polar(inner,end),innerStart=polar(inner,start),large=end-start>180?1:0;
+    const path=`M ${number(outerStart.x)} ${number(outerStart.y)} A ${outer} ${outer} 0 ${large} 1 ${number(outerEnd.x)} ${number(outerEnd.y)} L ${number(innerEnd.x)} ${number(innerEnd.y)} A ${inner} ${inner} 0 ${large} 0 ${number(innerStart.x)} ${number(innerStart.y)} Z`;
+    const labelRadius=inner+(outer-inner)*.64,label=polar(labelRadius,middle),display=percent>=6?`<text class="radial-percent" x="${number(label.x)}" y="${number(label.y)}">${percent.toFixed(percent>=10?0:1).replace('.',',')}%</text>`:'';
+    return `<g class="radial-slice" transform="translate(${dx} ${dy})"><path class="radial-path" d="${path}" fill="${colors[index%colors.length]}"><title>${escapeHtml(category)}: ${brl(value)} (${percent.toFixed(1).replace('.',',')}%)</title></path>${display}</g>`;
   }).join('');
-  const legend=groups.map(([category,value],index)=>{const percent=value/total*100,color=colors[index%colors.length];return `<div class="legend-row"><i class="legend-dot" style="--dot:${color}"></i><div class="legend-copy"><strong>${escapeHtml(category)}</strong><small>${percent.toFixed(percent>=10?0:1).replace('.',',')}% do mês</small></div><div class="legend-value"><strong>${brl(value)}</strong><small>${percent.toFixed(1).replace('.',',')}%</small></div></div>`}).join('');
-  box.innerHTML=`<div class="donut-wrap"><svg class="donut-svg" viewBox="0 0 100 100" aria-hidden="true"><circle class="donut-track" cx="50" cy="50" r="${radius}"></circle>${segments}</svg><div class="donut-center"><span>Total</span><strong>${brl(total)}</strong></div></div><div class="chart-legend">${legend}</div>`;
+  const legend=groups.map(([category,value],index)=>{const percent=value/total*100,color=colors[index%colors.length];return `<div class="legend-row"><i class="legend-dot" style="--dot:${color}"></i><div class="legend-copy"><strong>${escapeHtml(category)}</strong></div><div class="legend-value"><strong>${brl(value)}</strong><small>${percent.toFixed(1).replace('.',',')}%</small></div></div>`}).join('');
+  box.innerHTML=`<div class="chart-total"><span>Total considerado</span><strong>${brl(total)}</strong></div><div class="radial-wrap"><svg class="radial-svg" viewBox="0 0 240 240" aria-hidden="true">${segments}<circle class="radial-core" cx="120" cy="120" r="17"></circle></svg></div><div class="chart-legend">${legend}</div>`;
 }
 
 function render(){
@@ -232,7 +246,11 @@ function render(){
   $('#totalValue').textContent=brl(totals.total);$('#paidValue').textContent=brl(totals.paid);$('#reservedValue').textContent=brl(totals.reserved);$('#pendingValue').textContent=brl(totals.pending);
   $('#paidProgress').style.width=`${totals.total?Math.min(100,((totals.paid+totals.reserved)/totals.total)*100):0}%`;
   $('#debtCard').classList.toggle('hidden',state.scope!=='wesley');$('#heroGrid').classList.toggle('single',state.scope!=='wesley');
-  if(state.scope==='wesley'){$('#debtValue').textContent=brl(state.debt.amount);$('#immediateValue').textContent=brl(state.debt.immediate);$('#internetValue').textContent=brl(state.debt.internet)}
+  if(state.scope==='wesley'){
+    $('#debtValue').textContent=brl(state.debt.amount);$('#immediateValue').textContent=brl(state.debt.immediate);$('#internetValue').textContent=brl(state.debt.internet);
+    const salary=Number(state.income?.received)||0;$('#salaryDetail').classList.toggle('hidden',!salary);$('#remainingDetail').classList.toggle('hidden',!salary);
+    if(salary){$('#salaryValue').textContent=brl(salary);$('#remainingValue').textContent=brl(Math.max(0,salary-state.debt.amount))}
+  }
   renderBills(bills);renderAttention(bills,totals);renderSpendingChart(bills);renderRecurring(bills);renderBackupStatus();
 }
 function renderBills(bills){
@@ -272,6 +290,26 @@ function toast(message){const element=$('#toast');element.textContent=message;el
 function openApp(){
   $('#password').value='';$('#loginError').classList.add('hidden');$('#lockScreen').classList.add('hidden');$('#app').classList.remove('hidden');render();
 }
+
+async function applyPublishedDataUpdates(password){
+  let latest;
+  try{latest=await decryptVault(DEFAULT_PAYLOAD,password)}catch{return false}
+  const revision=latest.dataRevision;
+  if(!revision||state.dataRevision===revision)return false;
+  const updates=new Map((latest.bills||[]).filter(bill=>bill.syncRevision===revision).map(bill=>[bill.id,bill]));
+  state.bills=state.bills.map(current=>{
+    const updated=updates.get(current.id);
+    if(!updated)return current;
+    return {...current,...structuredClone(updated),status:current.status,updatedAt:current.updatedAt||updated.updatedAt};
+  });
+  if(latest.income)state.income=structuredClone(latest.income);
+  for(const item of latest.clearConsolidatedTotals||[]){
+    if(state.consolidatedTotals?.[item.scope])delete state.consolidatedTotals[item.scope][item.month];
+  }
+  state.dataRevision=revision;
+  await saveState();return true;
+}
+
 async function tryRememberedLogin(){
   const remembered=await readRememberedAccess();
   if(!remembered?.key||!remembered?.iv||!remembered?.data)return;
@@ -283,7 +321,9 @@ async function tryRememberedLogin(){
   for(const payload of storedVaultCandidates()){
     try{
       state=await decryptVault(payload,password);
-      currentPassword=password;rememberDeviceEnabled=true;rememberedReady=true;
+      currentPassword=password;rememberDeviceEnabled=true;
+      try{await applyPublishedDataUpdates(password)}catch{}
+      rememberedReady=true;
       $('#rememberDevice').checked=true;$('#password').required=false;$('#loginForm').classList.add('remembered');
       $('#loginForm button[type="submit"]').textContent='Entrar';
       $('.lock-copy').textContent='Aparelho reconhecido. Toque em Entrar para abrir o painel de Wesley e Ana.';
@@ -310,6 +350,7 @@ $('#loginForm').addEventListener('submit',async event=>{
     }else{
       await forgetRememberedAccess();
     }
+    try{await applyPublishedDataUpdates(password)}catch{}
     openApp();
   }catch{
     attempts++;error.textContent='Senha incorreta.';error.classList.remove('hidden');$('#password').value='';
