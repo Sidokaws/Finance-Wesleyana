@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#061329">
   <meta name="description" content="Painel financeiro particular com dados criptografados.">
   <title>Finance Wesleyana</title>
-  <link rel="stylesheet" href="style.css?v=20260816-7">
+  <link rel="stylesheet" href="style.css?v=20260821-1">
 </head>
 <body>
   <main id="lockScreen" class="lock-shell">
@@ -74,7 +74,22 @@
         </article>
         <aside class="side-stack">
           <article class="panel alert-card"><p class="eyebrow">ORGANIZAÇÃO</p><h2 id="attentionTitle"></h2><ul id="attentionList"></ul></article>
+          <article class="panel chart-card">
+            <div class="section-heading compact"><div><p class="eyebrow">PARA ONDE ESTÁ INDO</p><h2 id="chartScopeTitle">Gastos de Wesley</h2></div><span class="chart-month" id="chartMonthLabel">SET</span></div>
+            <div id="spendingChart" class="spending-chart" role="img" aria-label="Distribuição dos gastos por categoria"></div>
+            <p class="chart-note">Percentuais calculados sobre os lançamentos deste mês, pagos ou pendentes.</p>
+          </article>
           <article id="recurringCard" class="panel recurring-card"><div class="section-heading compact"><div><p class="eyebrow">LEMBRETES</p><h2>Contas recorrentes</h2></div></div><div id="recurringList"></div></article>
+          <article class="panel backup-card">
+            <div class="section-heading compact"><div><p class="eyebrow">PROTEÇÃO DOS DADOS</p><h2>Backup deste aparelho</h2></div><span class="backup-icon" aria-hidden="true">↻</span></div>
+            <p class="backup-copy">Guarde uma cópia criptografada dos lançamentos. Ao restaurar, seus registros atuais são preservados.</p>
+            <div class="backup-actions">
+              <button id="exportBackupBtn" class="secondary backup-button" type="button">↓ Salvar backup</button>
+              <label class="secondary backup-button backup-import" for="backupFile">↑ Restaurar backup</label>
+              <input id="backupFile" class="hidden" type="file" accept=".json,application/json">
+            </div>
+            <p id="backupStatus" class="backup-status">Nenhum backup salvo neste aparelho.</p>
+          </article>
         </aside>
       </section>
     </div>
@@ -87,6 +102,7 @@
       <label>Conta / instituição<input name="account" placeholder="Ex.: Nubank" required></label>
       <label>Descrição<input name="title" placeholder="Ex.: Fatura" required></label>
       <div class="form-grid"><label>Valor<input name="amount" inputmode="decimal" placeholder="0,00" required></label><label>Vencimento<input name="due" placeholder="20/09" required></label></div>
+      <label>Categoria<select name="category"><option value="Cartões e faturas">Cartões e faturas</option><option value="Casa e serviços">Casa e serviços</option><option value="Alimentação">Alimentação</option><option value="Compras">Compras</option><option value="Assinaturas">Assinaturas</option><option value="Transporte">Transporte</option><option value="Saúde">Saúde</option><option value="Dívidas">Dívidas</option><option value="Lazer">Lazer</option><option value="Outros">Outros</option></select></label>
       <label>Situação<select name="status"><option value="pending">Pendente</option><option value="reserved">Separado</option><option value="paid">Pago</option></select></label>
       <label>Observação<textarea name="note" rows="3"></textarea></label>
       <button class="primary full" type="submit">Salvar lançamento</button>
@@ -114,6 +130,20 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=20260816-7"></script>
+  <dialog id="restoreDialog" class="modal small">
+    <form id="restoreForm" method="dialog" class="modal-form">
+      <div class="modal-heading"><div><p class="eyebrow">RESTAURAR COM SEGURANÇA</p><h2>Juntar lançamentos</h2></div><button type="button" data-close="restoreDialog" aria-label="Fechar">×</button></div>
+      <p id="restoreCopy" class="confirm-copy"></p>
+      <p class="backup-restore-note">Os lançamentos que já estão neste aparelho não serão apagados. Registros repetidos não serão duplicados.</p>
+      <label>Senha do backup, se for diferente da senha atual<input name="backupPassword" type="password" autocomplete="current-password" placeholder="Deixe em branco para usar a senha atual"></label>
+      <p id="restoreError" class="form-error hidden" role="alert"></p>
+      <div class="modal-actions">
+        <button type="button" class="secondary" data-close="restoreDialog">Cancelar</button>
+        <button class="primary" type="submit">Restaurar backup</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js?v=20260821-1"></script>
 </body>
 </html>
