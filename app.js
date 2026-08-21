@@ -181,7 +181,7 @@ function categoryFor(bill){
   if(bill.category)return bill.category;
   const text=`${bill.account||''} ${bill.title||''} ${bill.note||''}`.toLowerCase();
   if(/internet|claro|energia|água|agua|aluguel|casa/.test(text))return 'Casa e serviços';
-  if(/marmitex|mercado|comida|alimentação|alimentacao|restaurante|lanche/.test(text))return 'Alimentação';
+  if(/marmitex|supermercado|mercearia|\bmercado\b(?!\s+pago)|comida|alimentação|alimentacao|restaurante|lanche/.test(text))return 'Alimentação';
   if(/pneu|gasolina|combustível|combustivel|uber|transporte|deslocamento/.test(text))return 'Transporte';
   if(/seguro|saúde|saude|farmácia|farmacia|consulta/.test(text))return 'Saúde';
   if(/tec|gpt|assinatura|mensalidade|netflix|spotify/.test(text))return 'Assinaturas';
