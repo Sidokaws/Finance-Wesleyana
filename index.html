@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#061329">
   <meta name="description" content="Painel financeiro particular com dados criptografados.">
   <title>Finance Wesleyana</title>
-  <link rel="stylesheet" href="style.css?v=20260821-3">
+  <link rel="stylesheet" href="style.css?v=20260826-1">
 </head>
 <body>
   <main id="lockScreen" class="lock-shell">
@@ -48,13 +48,13 @@
           <button data-scope="wesley">★ Wesley</button><button data-scope="ana">✿ Ana</button><button data-scope="joint">∞ Nós</button>
         </div>
         <div class="month-tabs" aria-label="Selecionar mês">
-          <button data-month="2026-08">Agosto</button><button data-month="2026-09">Setembro</button><button data-month="2026-10">Outubro</button>
+          <button data-month="2026-08">Agosto</button><button data-month="2026-09">Setembro</button><button data-month="2026-10">Outubro</button><button data-month="2026-11">Novembro</button><button data-month="2026-12">Dezembro</button>
         </div>
       </section>
 
       <section id="heroGrid" class="hero-grid">
         <article class="panel summary-card">
-          <div class="panel-heading"><div><p id="viewLabel" class="eyebrow"></p><h2>Compromissos do mês</h2></div><span class="updated">Atualizado em 21/08</span></div>
+          <div class="panel-heading"><div><p id="viewLabel" class="eyebrow"></p><h2>Compromissos do mês</h2></div><span class="updated">Atualizado em 26/08</span></div>
           <strong id="totalValue" class="big-number"></strong>
           <div class="progress"><span id="paidProgress"></span></div>
           <div class="summary-breakdown"><div><span>Pago</span><strong id="paidValue"></strong></div><div><span>Separado</span><strong id="reservedValue"></strong></div><div><span>A vencer</span><strong id="pendingValue"></strong></div></div>
@@ -104,7 +104,7 @@
       <label>Conta / instituição<input name="account" placeholder="Ex.: Nubank" required></label>
       <label>Descrição<input name="title" placeholder="Ex.: Fatura" required></label>
       <div class="form-grid"><label>Valor<input name="amount" inputmode="decimal" placeholder="0,00" required></label><label>Vencimento<input name="due" placeholder="20/09" required></label></div>
-      <label>Categoria<select name="category"><option value="Cartões e faturas">Cartões e faturas</option><option value="Casa e serviços">Casa e serviços</option><option value="Alimentação">Alimentação</option><option value="Compras">Compras</option><option value="Assinaturas">Assinaturas</option><option value="Transporte">Transporte</option><option value="Saúde">Saúde</option><option value="Dívidas">Dívidas</option><option value="Lazer">Lazer</option><option value="Outros">Outros</option></select></label>
+      <label>Categoria<select name="category"><option value="Cartões e faturas">Cartões e faturas</option><option value="Casa e serviços">Casa e serviços</option><option value="Alimentação">Alimentação</option><option value="Compras">Compras</option><option value="Assinaturas">Assinaturas</option><option value="Educação">Educação</option><option value="Transporte">Transporte</option><option value="Saúde">Saúde</option><option value="Dívidas">Dívidas</option><option value="Lazer">Lazer</option><option value="Outros">Outros</option></select></label>
       <label>Situação<select name="status"><option value="pending">Pendente</option><option value="reserved">Separado</option><option value="paid">Pago</option></select></label>
       <label>Observação<textarea name="note" rows="3"></textarea></label>
       <button class="primary full" type="submit">Salvar lançamento</button>
@@ -146,6 +146,6 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=20260821-3"></script>
+  <script src="app.js?v=20260826-1"></script>
 </body>
 </html>
