@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#061329">
   <meta name="description" content="Painel financeiro particular com dados criptografados.">
   <title>Finance Wesleyana</title>
-  <link rel="stylesheet" href="style.css?v=20260826-1">
+  <link rel="stylesheet" href="style.css?v=20260829-1">
 </head>
 <body>
   <main id="lockScreen" class="lock-shell">
@@ -71,7 +71,21 @@
 
       <section class="content-grid">
         <article class="panel bills-card">
-          <div class="section-heading"><div><p class="eyebrow">CONTAS E FATURAS</p><h2 id="monthHeading"></h2></div><button id="addBtn" class="primary">＋ Novo lançamento</button></div>
+          <div class="section-heading"><div><p class="eyebrow">CONTAS E FATURAS</p><h2 id="monthHeading"></h2></div><button id="addBtn" class="primary">＋ Formulário completo</button></div>
+          <form id="quickEntryForm" class="quick-entry" autocomplete="off">
+            <div class="quick-entry-heading">
+              <div><span class="quick-entry-icon" aria-hidden="true">✦</span><div><strong>Lançamento rápido</strong><small>Escreva do seu jeito e eu organizo automaticamente.</small></div></div>
+              <span class="quick-entry-badge">RÁPIDO</span>
+            </div>
+            <div class="quick-entry-row">
+              <label class="quick-entry-field" for="quickEntryText">
+                <span class="hidden">Descreva o lançamento</span>
+                <input id="quickEntryText" name="message" placeholder="Ex.: gastei R$ 50 de gasolina no Nubank hoje" required>
+              </label>
+              <button class="primary" type="submit">Adicionar</button>
+            </div>
+            <p id="quickEntryHelp" class="quick-entry-help">Também entende “paguei”, “comprei”, “separei” e “vou pagar”. Para dividir valores ou acrescentar detalhes, use o formulário completo.</p>
+          </form>
           <div id="billList" class="bill-list"></div>
         </article>
         <aside class="side-stack">
@@ -146,6 +160,6 @@
     </form>
   </dialog>
 
-  <script src="app.js?v=20260826-1"></script>
+  <script src="app.js?v=20260829-1"></script>
 </body>
 </html>

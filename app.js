@@ -8,7 +8,7 @@ const CATEGORY_COLORS={
   ana:['#ff4f91','#e87ac0','#995bd4','#ff9f63','#39b8d6','#f5c24b','#d68fe5'],
   joint:['#9b6be2','#f16da8','#4f93ec','#f1ad47','#44c2a0','#d587dc','#7cb5ef']
 };
-let state=null,currentPassword='',rememberDeviceEnabled=false,rememberedReady=false,attempts=0,pendingDeleteId=null,pendingBackup=null,savingBill=false;
+let state=null,currentPassword='',rememberDeviceEnabled=false,rememberedReady=false,attempts=0,pendingDeleteId=null,pendingBackup=null,savingBill=false,quickSaving=false;
 const $=selector=>document.querySelector(selector);
 const $$=selector=>[...document.querySelectorAll(selector)];
 const brl=value=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(value)||0);
@@ -182,15 +182,111 @@ function categoryFor(bill){
   const account=String(bill.account||'').toLowerCase(),title=String(bill.title||'').toLowerCase(),text=`${account} ${title} ${bill.note||''}`.toLowerCase();
   if(/nubank|mercado pago|banco do brasil/.test(account)&&/fatura/.test(title))return 'Cartões e faturas';
   if(/internet|claro|energia|água|agua|aluguel|casa/.test(text))return 'Casa e serviços';
-  if(/marmitex|supermercado|mercearia|\bmercado\b(?!\s+pago)|comida|alimentação|alimentacao|restaurante|lanche/.test(text))return 'Alimentação';
+  if(/marmitex|supermercado|ara\s*super|arasuper|ifood|mercearia|\bmercado\b(?!\s+pago)|comida|alimentação|alimentacao|restaurante|lanche/.test(text))return 'Alimentação';
   if(/pneu|gasolina|combustível|combustivel|uber|transporte|deslocamento/.test(text))return 'Transporte';
   if(/seguro|saúde|saude|farmácia|farmacia|consulta/.test(text))return 'Saúde';
-  if(/tec|gpt|assinatura|mensalidade|netflix|spotify/.test(text))return 'Assinaturas';
+  if(/tec|gpt|prime|assinatura|mensalidade|netflix|spotify|crunchyroll/.test(text))return 'Assinaturas';
   if(/empréstimo|emprestimo|dívida|divida|devolver/.test(text))return 'Dívidas';
-  if(/studio|tênis|tenis|placa|ventoinha|processador|suporte|brinquedo|roupa|bateria|lightbar/.test(text))return 'Compras';
+  if(/studio|tênis|tenis|placa|ventoinha|processador|suporte|brinquedo|boneco|figure|presente|memória|memoria|ram|roupa|bateria|lightbar/.test(text))return 'Compras';
   if(/cinema|jogo|lazer|passeio/.test(text))return 'Lazer';
   if(/nubank|mercado pago|banco do brasil|fatura|cartão|cartao/.test(text))return 'Cartões e faturas';
   return 'Outros';
+}
+
+function invalidateConsolidatedTotals(month=state.month){
+  if(!state.consolidatedTotals)return;
+  for(const scope of ['wesley','ana','joint']){
+    if(state.consolidatedTotals[scope])delete state.consolidatedTotals[scope][month];
+  }
+}
+
+function quickAmount(text){
+  const number='(\\d{1,3}(?:\\.\\d{3})+(?:,\\d{1,2})?|\\d+(?:,\\d{1,2})?|\\d+(?:\\.\\d{1,2})?)';
+  const read=value=>/^\d+\.\d{1,2}$/.test(value)?Number(value):parseMoney(value);
+  const patterns=[
+    new RegExp(`r\\$\\s*${number}`,'i'),
+    new RegExp(`\\b${number}\\s*(?:reais?|conto)\\b`,'i'),
+    new RegExp(`\\b(?:por|valor(?:\\s+de)?|custou|ficou|foi)\\s*(?:r\\$\\s*)?${number}`,'i'),
+    new RegExp(`\\b(?:gastei|paguei|comprei|separei|reservei|devo|mandei|enviei|transferi)\\s*(?:r\\$\\s*)?${number}`,'i')
+  ];
+  for(const pattern of patterns){const match=text.match(pattern);if(match)return read(match[1])}
+  const fallback=text.replace(/\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b/g,'').match(/\b\d+(?:[.,]\d{1,2})?\b/);
+  return fallback?read(fallback[0]):0;
+}
+
+function quickDate(text){
+  const now=new Date(),explicit=text.match(/\b(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?\b/);
+  let date;
+  if(explicit){
+    let year=explicit[3]?Number(explicit[3]):Number(state.month.slice(0,4));
+    if(year<100)year+=2000;
+    date=new Date(year,Number(explicit[2])-1,Number(explicit[1]));
+  }else if(/\b(?:anteontem)\b/i.test(text)){
+    date=new Date(now);date.setDate(date.getDate()-2);
+  }else if(/\b(?:ontem)\b/i.test(text)){
+    date=new Date(now);date.setDate(date.getDate()-1);
+  }else if(/\b(?:amanhã|amanha)\b/i.test(text)){
+    date=new Date(now);date.setDate(date.getDate()+1);
+  }else if(/\bhoje\b/i.test(text)){
+    date=now;
+  }else{
+    const [year,month]=state.month.split('-').map(Number),lastDay=new Date(year,month,0).getDate();
+    date=new Date(year,month-1,Math.min(now.getDate(),lastDay));
+  }
+  if(Number.isNaN(date.valueOf()))return null;
+  const day=String(date.getDate()).padStart(2,'0'),month=String(date.getMonth()+1).padStart(2,'0');
+  return {month:`${date.getFullYear()}-${month}`,due:`${day}/${month}`};
+}
+
+function quickOwner(text){
+  if(/\b(?:nós|nosso|nossa|casal|compartilhad[oa])\b/i.test(text))return 'joint';
+  if(/\b(?:ana\s+(?:gastou|pagou|comprou)|gasto\s+da\s+ana|conta\s+da\s+ana|cartão\s+da\s+ana|cartao\s+da\s+ana)\b/i.test(text))return 'ana';
+  if(/\b(?:wesley\s+(?:gastou|pagou|comprou)|gasto\s+do\s+wesley|conta\s+do\s+wesley|cartão\s+do\s+wesley|cartao\s+do\s+wesley)\b/i.test(text))return 'wesley';
+  return state.scope;
+}
+
+function quickAccount(text){
+  const rules=[
+    [/\b(?:nubank|nu)\b/i,'Nubank'],
+    [/\bmercado\s+pago\b/i,'Mercado Pago'],
+    [/\b(?:banco\s+do\s+brasil|bb)\b/i,'Banco do Brasil'],
+    [/\bpix\b/i,'Pix'],
+    [/\b(?:dinheiro|espécie|especie)\b/i,'Dinheiro'],
+    [/\bclaro\b/i,'Claro'],
+    [/\binternet\b/i,'Internet'],
+    [/\boab\b/i,'OAB'],
+    [/\b(?:pais|família|familia)\b/i,'Família']
+  ];
+  return rules.find(([pattern])=>pattern.test(text))?.[1]||'Não informado';
+}
+
+function quickTitle(text,category){
+  const known=[
+    [/ara\s*super|arasuper/i,'Ara Super'],[/ifood/i,'iFood'],[/duna/i,'Duna Restaurante'],[/restaurante/i,'Restaurante'],
+    [/gasolina|combustível|combustivel/i,'Gasolina'],[/uber/i,'Uber'],[/marmitex/i,'Marmitex'],[/internet/i,'Internet'],[/claro/i,'Claro'],
+    [/memória\s+ram|memoria\s+ram|\bram\b/i,'Memória RAM'],[/ventoinha/i,'Ventoinha'],[/bonecos?|figures?/i,'Bonecos'],
+    [/prime/i,'Prime'],[/netflix/i,'Netflix'],[/spotify/i,'Spotify'],[/oab/i,'OAB'],[/mercado(?!\s+pago)|supermercado/i,'Supermercado']
+  ];
+  const match=known.find(([pattern])=>pattern.test(text));if(match)return match[1];
+  let cleaned=text
+    .replace(/r\$\s*\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?|\b\d+(?:[.,]\d{1,2})?\s*(?:reais?|conto)?\b/gi,' ')
+    .replace(/\b(?:gastei|paguei|comprei|separei|reservei|vou\s+pagar|devo|mandei|enviei|transferi|hoje|ontem|anteontem|amanhã|amanha)\b/gi,' ')
+    .replace(/\b(?:no|na|pelo|pela)?\s*(?:nubank|mercado\s+pago|banco\s+do\s+brasil|bb|pix|dinheiro)\b/gi,' ')
+    .replace(/\b(?:por|de|em|para|pra|com|reais?|conto)\b/gi,' ')
+    .replace(/\s+/g,' ').trim();
+  if(!cleaned)return category;
+  cleaned=cleaned.slice(0,70);
+  return cleaned.charAt(0).toUpperCase()+cleaned.slice(1);
+}
+
+function parseQuickEntry(text){
+  const raw=String(text||'').trim(),amount=quickAmount(raw),date=quickDate(raw);
+  if(!raw)return {error:'Escreva o que aconteceu.'};
+  if(!amount)return {error:'Não consegui identificar o valor. Tente incluir “R$ 50” ou “50 reais”.'};
+  if(!date||!MONTHS[date.month])return {error:'A data informada está fora dos meses disponíveis no painel.'};
+  const owner=quickOwner(raw),account=quickAccount(raw),status=/\b(?:vou\s+pagar|falta\s+pagar|a\s+vencer|pendente|devo)\b/i.test(raw)?'pending':/\b(?:separei|reservei)\b/i.test(raw)?'reserved':'paid';
+  const preview={account,title:'',note:raw},category=categoryFor(preview),title=quickTitle(raw,category);
+  return {id:crypto.randomUUID(),month:date.month,owner,account,title,amount,due:date.due,status,note:'',category,quickText:raw,updatedAt:Date.now()};
 }
 
 function groupedSpending(bills){
@@ -264,7 +360,7 @@ function renderBills(bills){
   }).join('');
   $$('[data-status-id]').forEach(button=>button.onclick=async()=>{
     const bill=state.bills.find(item=>item.id===button.dataset.statusId),next={pending:'reserved',reserved:'paid',paid:'pending'};
-    bill.status=next[bill.status];bill.updatedAt=Date.now();await saveState();render();toast('Situação atualizada e criptografada.');
+    bill.status=next[bill.status];bill.updatedAt=Date.now();invalidateConsolidatedTotals(bill.month);await saveState();render();toast('Situação atualizada e criptografada.');
   });
   $$('[data-delete-id]').forEach(button=>button.onclick=()=>{
     const bill=state.bills.find(item=>item.id===button.dataset.deleteId);
@@ -374,9 +470,26 @@ $('#billForm').addEventListener('submit',async event=>{
   submit.disabled=true;submit.textContent='Salvando...';
   try{
     state.bills.push({id:crypto.randomUUID(),month:state.month,owner:state.scope,account:String(data.get('account')).trim(),title:String(data.get('title')).trim(),amount:parseMoney(data.get('amount')),due:String(data.get('due')).trim(),status:String(data.get('status')),note:String(data.get('note')||'').trim(),category:String(data.get('category')||'Outros'),updatedAt:Date.now()});
+    invalidateConsolidatedTotals();
     await saveState();form.reset();$('#billDialog').close();render();toast('Lançamento salvo de forma criptografada.');
   }finally{
     savingBill=false;submit.disabled=false;submit.textContent='Salvar lançamento';
+  }
+});
+
+$('#quickEntryForm').addEventListener('submit',async event=>{
+  event.preventDefault();if(quickSaving)return;
+  const form=event.currentTarget,input=$('#quickEntryText'),button=form.querySelector('[type="submit"]'),help=$('#quickEntryHelp'),bill=parseQuickEntry(input.value);
+  help.classList.remove('error','success');
+  if(bill.error){help.textContent=bill.error;help.classList.add('error');input.focus();return}
+  quickSaving=true;button.disabled=true;button.textContent='Adicionando...';help.classList.remove('error');
+  state.bills.push(bill);invalidateConsolidatedTotals(bill.month);
+  try{
+    await saveState();state.month=bill.month;input.value='';help.textContent='Pronto: o lançamento foi organizado e salvo. O formulário completo continua disponível para casos detalhados.';help.classList.add('success');render();toast(`${bill.title}: ${brl(bill.amount)} adicionado.`);
+  }catch{
+    state.bills=state.bills.filter(item=>item.id!==bill.id);help.textContent='Não foi possível salvar agora. Tente novamente.';help.classList.add('error');
+  }finally{
+    quickSaving=false;button.disabled=false;button.textContent='Adicionar';
   }
 });
 $('#passwordForm').addEventListener('submit',async event=>{
@@ -389,7 +502,7 @@ $('#deleteForm').addEventListener('submit',async event=>{
   event.preventDefault();
   const index=state.bills.findIndex(item=>item.id===pendingDeleteId);
   if(index<0){$('#deleteDialog').close();return}
-  state.bills.splice(index,1);pendingDeleteId=null;
+  const [removed]=state.bills.splice(index,1);pendingDeleteId=null;invalidateConsolidatedTotals(removed.month);
   await saveState();$('#deleteDialog').close();render();toast('Lançamento apagado.');
 });
 
