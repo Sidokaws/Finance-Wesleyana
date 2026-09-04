@@ -1,7 +1,8 @@
 const STORAGE_KEY='finance-wesleyana-vault-v2';
 const RECOVERY_KEY='finance-wesleyana-vault-recovery-v1';
 const REMEMBER_DB='finance-wesleyana-access-v1',REMEMBER_STORE='keys',REMEMBER_ID='device-unlock';
-const OAB_MIGRATION='2026-08-30-oab-total-350-v1';
+const FINANCIAL_SNAPSHOT_MIGRATION='2026-09-04-current-finances-v1';
+const FINANCIAL_UPDATE_PAYLOAD={"v":2,"i":310000,"z":"gzip","salt":"Pz98b0SnhbON9H9rpKjJZg==","iv":"QArRNNY2hfdJA1og","data":"5zXYQc4lpJh+gqFcjAVgc1WzjuJbqv+f7vL0OgNoKrxZFQopVlmIrcLCt9ie9wv3pXP3OowhlMiUO46nKPMgsndh7fQejRS2WWI1sL/wBYS5krwn19BT5dnjYAqPVllQQU8ba3kaDQmxT9qObXhRUvqzhPFnlJ99PVJWtC2tfVMFvM8JKJS7EWdSVdi5vcd2wkXUmTP28VEqb8AvbM/3hBuTFUgJcjlDeS7vNvQCY30jDrXZYOPqn+NOaQkuXLCkkml/o146KPoF+IXf+ifHNk+cPyC/DMhU8QNr9pDO7f5ScJ2R7tcNjRd8jxpli59MXc0mQRhtBQ9oYbU/Y25YwiRZipqiRODMbb8XA0PBduY4a2EwBJrP/tCYPw/N9N+ujeZrmwMtrzAgWKCqkXgBrguONEQPgiB+c+kKDE96b4JF1gqys3kSoO+erLIjinnoVdlnQF/f83Y2XEmgfwVata7FTAnAVJ6j6QMLg6/AMqLfHgtv+NImwneFOy/RpXYCyI+tqiXzLENi8bIx3GSloXu5VuYlguBTvWhZINPEwfYn/hlZPObMlO41SDAjeH+wImVLxTkakKh/JqdMD5ETyqXIh16jrVCRSVvCGMnMKyQGzNzBROtgL9byVwcKl+uPjydNKq25kONK5XhcRx0rGOLxKknIxBJ38FilIU0YHIGyPCdJc32U9NQ0BIqmlQuhbzS9O5t0p5P401QuIfzUMtakRrjbNAVD3OMTIG5HmqzhdrSy/5LFJc9fhV/PSTypkM9XGmBPsnY+qBgrMZTnr4LUh5a2rtJkdSNDz8u7MaD2VL/5Ifqjw5fW2c46Z5tD43tbX+/Wjtc9bDmS6d0YSyPr2cR8GmuLK5tvZfw/d7u4EhB3P/9+sq7ibbpYK4eGmmsGAVHE1CQK5Op+QI9S+TPS7FoeYD+PN/iZLmq5Bp41t35g4qhdaCZIThiPBI+VJ0l/7ZxfdampXn6xjQ4FGuUuwKspj98HuTIMUVR4csG6Z6akBpLuVbMgw6v2cr1JMICV3rNI/8YjljiY/jYVitf1LQJoUB3Q3VkO6/slZCJgdoyEWCDN2yiadlXGYCLWk2eoBhMdkeS1ElY/kAFMWVgKeykNoet8QbW0LlbktEXzrwtsEvXJuuz/FWXUukvwaAsJu9AYc8AYAHRliA1bEJZnPX/9ht5Iy9yMgbQeFMOgZyl6LdCoedbJXqA++DRqtYGZ8pZmzCmOi4TB5rCSz+wgc3UBi5fYkoqKOud/qvbB8vdFHHSuTi5Sd5tYo7ugcp/M5rRo7+ogcPlST7ujpAtX9gfIa7t84XUsLLEf9h8tDL+sYzvBB9aKURngP3pYGfIsm9J7RYBJorOJbiGmYxpq8amGOVX2Rw0cQYG73RWtJXhicUMX7Dbsm16fE2cY+AqKFI6nB0rW07Sx14XNmljbAQ8mN+MXuVg8PCa17SOw2y8aqc6TT/fxRqOC8iEKAL1zj8n6IqNNC9YwpsS39KA1UhLCdaFx3K3KkYV+zQTn6WZ4TXEZJ+CJniU5pH6nry8KJ/vhMCM0I9KjX1km6GTgI54VQ6x9EFiI6+aROjuiXsHk5rN7bjJDCmw/DzCnT/z6vb1Y0q5srW0yBnyBmYO0HP1aWhmtyCDHNihactYqchG+MUWyDU+V5A73kld5q3opaI/MHboEQBux0dwoLWH+jlLsYDOWkhBUtzmJqDWWSixjcWQzwejNmyUfydJAFRJhsVBlTJZh4vk7rdnCzK/BbbA9juz8fXWruTif4RyEVBPZ8Ae6dKfG7mhvAdYgzW8aa/x1Wq4okHykachmkkyiCkrb+S/m5fTBLs6n6kSbSISxRB1O9F/xX+92HPbtLPVXdPNhtBz3Db0bw4OTVUskXx5wz36PSyHk6XHop+k333zAoGWDMFvTHe/rT0t2jBf3QrLCPWp6iCqD/KgOKb7Y6FdDMhtdXlsYjVn0IOAvB6jg"};
 const DEFAULT_PAYLOAD={"v":2,"i":310000,"z":"gzip","salt":"JYn6QsjC5jEzqwSodVbdrg==","iv":"8W/TzSEhHCgsBs6n","data":"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"};
 const MONTHS={'2026-08':'Agosto','2026-09':'Setembro','2026-10':'Outubro','2026-11':'Novembro','2026-12':'Dezembro'};
 const CATEGORY_COLORS={
@@ -9,7 +10,7 @@ const CATEGORY_COLORS={
   ana:['#ff4f91','#e87ac0','#995bd4','#ff9f63','#39b8d6','#f5c24b','#d68fe5'],
   joint:['#9b6be2','#f16da8','#4f93ec','#f1ad47','#44c2a0','#d587dc','#7cb5ef']
 };
-let state=null,currentPassword='',rememberDeviceEnabled=false,rememberedReady=false,attempts=0,pendingDeleteId=null,pendingBackup=null,savingBill=false,quickSaving=false;
+let state=null,currentPassword='',rememberDeviceEnabled=false,rememberedReady=false,linkedUpdateApplied=false,attempts=0,pendingDeleteId=null,pendingBackup=null,savingBill=false,quickSaving=false;
 const $=selector=>document.querySelector(selector);
 const $$=selector=>[...document.querySelectorAll(selector)];
 const brl=value=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(value)||0);
@@ -188,7 +189,9 @@ function categoryFor(bill){
   if(/seguro|saúde|saude|farmácia|farmacia|consulta/.test(text))return 'Saúde';
   if(/tec|gpt|prime|assinatura|mensalidade|netflix|spotify|crunchyroll/.test(text))return 'Assinaturas';
   if(/empréstimo|emprestimo|dívida|divida|devolver/.test(text))return 'Dívidas';
-  if(/studio|tênis|tenis|placa|ventoinha|processador|suporte|brinquedo|boneco|figure|presente|memória|memoria|ram|roupa|bateria|lightbar/.test(text))return 'Compras';
+  if(/presente|boneco|figure/.test(text))return 'Presentes';
+  if(/studio|tênis|tenis|placa|ventoinha|processador|suporte|brinquedo|memória|memoria|ram|teclado|roupa|bateria|lightbar/.test(text))return 'Compras';
+  if(/moto|oficina|manutenção|manutencao/.test(text))return 'Transporte';
   if(/cinema|jogo|lazer|passeio/.test(text))return 'Lazer';
   if(/nubank|mercado pago|banco do brasil|fatura|cartão|cartao/.test(text))return 'Cartões e faturas';
   return 'Outros';
@@ -255,6 +258,7 @@ function quickAccount(text){
     [/\b(?:dinheiro|espécie|especie)\b/i,'Dinheiro'],
     [/\bclaro\b/i,'Claro'],
     [/\binternet\b/i,'Internet'],
+    [/\bhavan\b/i,'Havan'],
     [/\boab\b/i,'OAB'],
     [/\b(?:pais|família|familia)\b/i,'Família']
   ];
@@ -265,7 +269,7 @@ function quickTitle(text,category){
   const known=[
     [/ara\s*super|arasuper/i,'Ara Super'],[/ifood/i,'iFood'],[/duna/i,'Duna Restaurante'],[/restaurante/i,'Restaurante'],
     [/gasolina|combustível|combustivel/i,'Gasolina'],[/uber/i,'Uber'],[/marmitex/i,'Marmitex'],[/internet/i,'Internet'],[/claro/i,'Claro'],
-    [/memória\s+ram|memoria\s+ram|\bram\b/i,'Memória RAM'],[/ventoinha/i,'Ventoinha'],[/bonecos?|figures?/i,'Bonecos'],
+    [/memória\s+ram|memoria\s+ram|\bram\b/i,'Memória RAM'],[/ventoinha/i,'Ventoinha'],[/teclado/i,'Teclado'],[/moto/i,'Manutenção da moto'],[/havan/i,'Havan'],[/bonecos?|figures?/i,'Bonecos'],
     [/prime/i,'Prime'],[/netflix/i,'Netflix'],[/spotify/i,'Spotify'],[/oab/i,'OAB'],[/mercado(?!\s+pago)|supermercado/i,'Supermercado']
   ];
   const match=known.find(([pattern])=>pattern.test(text));if(match)return match[1];
@@ -386,6 +390,7 @@ function renderRecurring(bills){
 function toast(message){const element=$('#toast');element.textContent=message;element.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>element.classList.add('hidden'),2800)}
 function openApp(){
   $('#password').value='';$('#loginError').classList.add('hidden');$('#lockScreen').classList.add('hidden');$('#app').classList.remove('hidden');render();
+  if(linkedUpdateApplied){linkedUpdateApplied=false;setTimeout(()=>toast('Dados financeiros atualizados com segurança.'),0)}
 }
 
 async function applyPublishedDataUpdates(password){
@@ -412,30 +417,77 @@ async function applyPublishedDataUpdates(password){
   await saveState();return true;
 }
 
-function correctOabInstallments(){
-  const applied=Array.isArray(state.appliedMigrations)?state.appliedMigrations:[];
-  if(applied.includes(OAB_MIGRATION))return false;
-  const oabBills=(state.bills||[])
-    .filter(bill=>/\boab\b/i.test([bill.account,bill.title,bill.note].filter(Boolean).join(' ')))
-    .sort((a,b)=>[a.month,a.due].join('-').localeCompare([b.month,b.due].join('-')));
-  const totals=[116.67,116.67,116.66],anaShares=[58.33,58.34,58.33];
-  oabBills.forEach((bill,index)=>{
-    const label=String(bill.title||'')+' '+String(bill.note||''),matched=label.match(/\b([123])\s*\/\s*3\b/);
-    const installment=matched?Number(matched[1]):Math.min(index+1,3),position=installment-1;
-    bill.amount=totals[position];bill.owner='wesley';bill.anaContribution=anaShares[position];bill.anaAmount=anaShares[position];
-    bill.category='Educação';bill.anaNote='Metade da parcela '+installment+'/3 da OAB';bill.updatedAt=Date.now();
-    invalidateConsolidatedTotals(bill.month);
-  });
-  state.appliedMigrations=[...applied,OAB_MIGRATION];
-  return oabBills.length>0;
+function financialUpdateMatches(bill,match={}){
+  const text=[bill.account,bill.title,bill.note].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR');
+  if(match.id&&bill.id!==match.id)return false;
+  if(match.month&&bill.month!==match.month)return false;
+  if(match.account&&String(bill.account||'').trim().toLocaleLowerCase('pt-BR')!==String(match.account).trim().toLocaleLowerCase('pt-BR'))return false;
+  if(match.titleIncludes&&!String(bill.title||'').toLocaleLowerCase('pt-BR').includes(String(match.titleIncludes).toLocaleLowerCase('pt-BR')))return false;
+  if(match.textIncludes&&!text.includes(String(match.textIncludes).toLocaleLowerCase('pt-BR')))return false;
+  if(match.installment&&!text.replace(/\s/g,'').includes(String(match.installment).replace(/\s/g,'')))return false;
+  if(match.amount!==undefined&&Math.abs((Number(bill.amount)||0)-Number(match.amount))>=.005)return false;
+  return true;
 }
 
-async function applyDataMigrations(){
-  const wasApplied=Array.isArray(state.appliedMigrations)&&state.appliedMigrations.includes(OAB_MIGRATION);
-  const changed=correctOabInstallments();
-  if(changed||!wasApplied)await saveState();
-  return changed;
+function applyFinancialUpdate(update){
+  if(!update||update.app!=='finance-wesleyana-update'||update.format!==1||update.migration!==FINANCIAL_SNAPSHOT_MIGRATION)throw new Error('Atualização financeira inválida.');
+  const applied=Array.isArray(state.appliedMigrations)?state.appliedMigrations:[];
+  if(applied.includes(update.migration))return false;
+  const bills=state.bills||(state.bills=[]),now=Date.now();
+  for(const removal of update.removals||[]){
+    for(let index=bills.length-1;index>=0;index--){
+      if(!financialUpdateMatches(bills[index],removal))continue;
+      invalidateConsolidatedTotals(bills[index].month);bills.splice(index,1);
+    }
+  }
+  for(const entry of update.upserts||[]){
+    let bill=bills.find(item=>item.id===entry.bill.id)||bills.find(item=>financialUpdateMatches(item,entry.match));
+    const incoming=structuredClone(entry.bill),forceDue=Boolean(incoming.forceDue);delete incoming.forceDue;
+    if(!bill){bill=incoming;bills.push(bill)}
+    else{
+      const id=bill.id,due=bill.due;
+      Object.assign(bill,incoming,{id});
+      if(due&&!forceDue)bill.due=due;
+    }
+    bill.updatedAt=now;invalidateConsolidatedTotals(bill.month);
+  }
+  if(update.oab){
+    const group=bills.filter(bill=>/\boab\b/i.test([bill.account,bill.title,bill.note].filter(Boolean).join(' '))).sort((a,b)=>[a.month,a.due].join('-').localeCompare([b.month,b.due].join('-')));
+    group.forEach((bill,index)=>{
+      const text=[bill.title,bill.note].filter(Boolean).join(' '),matched=text.match(/\b([123])\s*\/\s*3\b/),installment=matched?Number(matched[1]):Math.min(index+1,3);
+      bill.amount=update.oab.amounts[installment-1];bill.owner=update.oab.owner;bill.account=update.oab.account;bill.category=update.oab.category;bill.note=update.oab.note||'';
+      delete bill.anaContribution;delete bill.anaAmount;delete bill.anaNote;
+      if(bill.month==='2026-09'){
+        bill.status=update.oab.septemberStatus;bill.due=update.oab.septemberDue;bill.note=update.oab.septemberNote||bill.note;
+      }
+      bill.updatedAt=now;invalidateConsolidatedTotals(bill.month);
+    });
+  }
+  for(const patch of update.statusPatches||[]){
+    for(const bill of bills.filter(item=>financialUpdateMatches(item,patch.match))){
+      bill.status=patch.status;bill.updatedAt=now;invalidateConsolidatedTotals(bill.month);
+    }
+  }
+  if(update.statePatch?.debt)state.debt={...(state.debt||{}),...structuredClone(update.statePatch.debt)};
+  if(update.statePatch?.financialSnapshot)state.financialSnapshot=structuredClone(update.statePatch.financialSnapshot);
+  state.appliedMigrations=[...applied,update.migration];
+  return true;
 }
+
+function clearFinancialUpdateLink(){
+  const params=new URLSearchParams(location.hash.replace(/^#/,''));params.delete('update');
+  const hash=params.toString();history.replaceState(null,'',location.pathname+location.search+(hash?'#'+hash:''));
+}
+
+async function applyLinkedFinancialUpdate(){
+  const code=new URLSearchParams(location.hash.replace(/^#/,'')).get('update');
+  if(!code)return false;
+  const update=await decryptVault(FINANCIAL_UPDATE_PAYLOAD,code),changed=applyFinancialUpdate(update);
+  if(changed)await saveState();
+  clearFinancialUpdateLink();linkedUpdateApplied=changed;return changed;
+}
+
+async function applyDataMigrations(){return false}
 
 async function tryRememberedLogin(){
   const remembered=await readRememberedAccess();
@@ -451,6 +503,7 @@ async function tryRememberedLogin(){
       currentPassword=password;rememberDeviceEnabled=true;
       try{await applyPublishedDataUpdates(password)}catch{}
       try{await applyDataMigrations()}catch{}
+      try{await applyLinkedFinancialUpdate()}catch{}
       rememberedReady=true;
       $('#rememberDevice').checked=true;$('#password').required=false;$('#loginForm').classList.add('remembered');
       $('#loginForm button[type="submit"]').textContent='Entrar';
@@ -480,6 +533,7 @@ $('#loginForm').addEventListener('submit',async event=>{
     }
     try{await applyPublishedDataUpdates(password)}catch{}
     try{await applyDataMigrations()}catch{}
+    try{await applyLinkedFinancialUpdate()}catch{}
     openApp();
   }catch{
     attempts++;error.textContent='Senha incorreta.';error.classList.remove('hidden');$('#password').value='';
